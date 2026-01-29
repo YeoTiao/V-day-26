@@ -14,7 +14,7 @@
         @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
         button { background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.5em; border-radius: 50px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; margin: 10px; }
         button:hover { transform: scale(1.1); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .photo-btn { background: none; border: 4px dashed #fff; font-size: 2em; padding: 20px 40px; margin-bottom: 30px; cursor: pointer; }
+        .photo-btn { background: none; border: 4px dashed #fff; font-size: 1.8em; padding: 20px 40px; margin-bottom: 30px; cursor: pointer; }
         .photo-btn:hover { background: rgba(255,255,255,0.1); }
         .photo-modal, .dog-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
         .photo-modal img, .dog-modal iframe { max-width: 90%; max-height: 90%; border-radius: 10px; }
@@ -28,14 +28,98 @@
 </head>
 <body>
     <div class="hearts" id="hearts"></div>
-    <!-- Photo Click Button -->
-    <button class="photo-btn" onclick="togglePhoto()">:D!!!!!</button>
-    <h1>Will you be my Valentines?</h1>
+    <!-- Photo Click Button - Now "Will you be my Valentines?" text, links to new photo -->
+    <button class="photo-btn" onclick="togglePhoto()">Will you be my Valentines?</button>
     <div class="countdown" id="countdown">
         <strong id="days">Loading...</strong> days until Feb 14, 2026!
     </div>
     <!-- Buttons -->
     <div id="buttons" style="margin-top: 30px;">
-        <button onclick="handleYes()">Ye
-
-            
+        <button onclick="handleYes()">Yes! 🥰</button>
+        <button id="noBtn" onclick="handleNo()">No 😢</button>
+    </div>
+    <!-- Yes Celebration -->
+    <div id="celebrate" class="hidden yes-celebrate">YES!!!!!</div>
+    <!-- Photo Modal - Updated to your new IMG_2280.jpg -->
+    <div id="photoModal" class="photo-modal" onclick="togglePhoto()">
+        <img src="IMG_2280.jpg" alt="Our Moment">
+    </div>
+    <!-- Happy Party Dog for Yes -->
+    <div id="partyDogModal" class="dog-modal" onclick="closeDogModal()">
+        <iframe src="https://giphy.com/embed/26ufnwz3wDUll5GU0" width="480" height="270" frameBorder="0" allowFullScreen></iframe>
+    </div>
+    <!-- Sad Crying Dog for No -->
+    <div id="sadDogModal" class="dog-modal" onclick="closeDogModal()">
+        <iframe src="https://giphy.com/embed/3o6Zt6KHxJTbXCnSvu" width="480" height="270" frameBorder="0" allowFullScreen></iframe>
+    </div>
+    <script>
+        // Live Countdown (Singapore time)
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date('2026-02-14T00:00:00+08:00');
+            const diff = target - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('days').textContent = days;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 24 * 60 * 60 * 1000);
+        // Animated Hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            document.getElementById('hearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 7000);
+        }
+        setInterval(createHeart, 300);
+        // Photo Toggle
+        function togglePhoto() {
+            document.getElementById('photoModal').style.display = document.getElementById('photoModal').style.display === 'flex' ? 'none' : 'flex';
+        }
+        // Dog Modals
+        function showPartyDog() {
+            document.getElementById('partyDogModal').style.display = 'flex';
+        }
+        function showSadDog() {
+            document.getElementById('sadDogModal').style.display = 'flex';
+        }
+        function closeDogModal() {
+            document.getElementById('partyDogModal').style.display = 'none';
+            document.getElementById('sadDogModal').style.display = 'none';
+        }
+        // Yes Handler - Confetti + Happy Party Dog
+        function handleYes() {
+            // Confetti explosion
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            document.body.appendChild(confetti);
+            for (let i = 0; i < 100; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.background = ['#ff69b4', '#ffd700', '#ff6b6b', '#feca57'][Math.floor(Math.random() * 4)];
+                piece.style.animationDelay = Math.random() * 3 + 's';
+                piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.appendChild(piece);
+            }
+            setTimeout(() => confetti.remove(), 4000);
+            // Celebration + dog
+            document.getElementById('celebrate').classList.remove('hidden');
+            document.getElementById('buttons').classList.add('hidden');
+            showPartyDog();
+        }
+        // No Handler - Sad Crying Dog + Force Yes
+        function handleNo() {
+            showSadDog();
+            if (confirm('Are you sure? 🥺')) {
+                handleYes();
+            } else {
+                document.getElementById('noBtn').textContent = 'Just Yes! 🥰';
+                document.getElementById('noBtn').onclick = handleYes;
+            }
+        }
+    </script>
+</body>
+</html>
