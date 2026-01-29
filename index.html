@@ -5,65 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will you be my Valentines?</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background: linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; overflow-x: hidden; position: relative; transition: all 0.5s; }
-        h1 { font-size: 3em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); animation: pulse 2s infinite; margin-bottom: 20px; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        .countdown { background: rgba(255,255,255,0.2); padding: 20px; border-radius: 15px; font-size: 2em; backdrop-filter: blur(10px); margin: 20px 0; }
-        .hearts { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .heart { position: absolute; color: #ff69b4; font-size: 20px; animation: float 6s infinite linear; }
-        @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
-        button { background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.5em; border-radius: 50px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; margin: 10px; }
-        button:hover { transform: scale(1.1); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .photo-btn { background: none; border: 4px dashed #fff; font-size: 1.8em; padding: 20px 40px; margin-bottom: 30px; cursor: pointer; }
-        .photo-btn:hover { background: rgba(255,255,255,0.1); }
-        .photo-modal, .dog-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
-        .photo-modal img, .dog-modal iframe { max-width: 90%; max-height: 90%; border-radius: 10px; }
-        .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
-        .confetti-piece { position: absolute; width: 10px; height: 10px; background: #ff69b4; animation: confetti-fall 3s linear infinite; }
-        @keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+        body { 
+            font-family: 'Arial', sans-serif; 
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3); 
+            margin: 0; 
+            padding: 20px; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+            overflow-x: hidden; 
+            position: relative; 
+            transition: all 0.5s; 
+        }
+        h1 { 
+            font-size: 3em; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+            animation: pulse 2s infinite; 
+            margin-bottom: 20px; 
+        }
+        @keyframes pulse { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.05); } 
+            100% { transform: scale(1); } 
+        }
+        .countdown { 
+            background: rgba(255,255,255,0.2); 
+            padding: 20px; 
+            border-radius: 15px; 
+            font-size: 2em; 
+            backdrop-filter: blur(10px); 
+            margin: 20px 0; 
+            text-align: center;
+        }
+        .hearts { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: -1; 
+        }
+        .heart { 
+            position: absolute; 
+            color: #ff69b4; 
+            font-size: 20px; 
+            animation: float 6s infinite linear; 
+        }
+        @keyframes float { 
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } 
+        }
+        button { 
+            background: #ff6b6b; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            font-size: 1.5em; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            margin: 10px; 
+        }
+        button:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+        }
+        .photo-btn { 
+            background: none; 
+            border: 4px dashed #fff; 
+            font-size: 2em; 
+            padding: 20px 40px; 
+            margin-bottom: 30px; 
+            cursor: pointer; 
+        }
+        .photo-btn:hover { 
+            background: rgba(255,255,255,0.1); 
+        }
+        .photo-modal, .dog-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .photo-modal img, .dog-modal div { 
+            max-width: 90%; 
+            max-height: 90%; 
+            border-radius: 10px; 
+        }
+        .confetti { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: 999; 
+        }
+        .confetti-piece { 
+            position: absolute; 
+            width: 10px; 
+            height: 10px; 
+            background: #ff69b4; 
+            animation: confetti-fall 3s linear infinite; 
+        }
+        @keyframes confetti-fall { 
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } 
+        }
         .hidden { display: none; }
-        .yes-celebrate { font-size: 4em; color: #ffd700; animation: bounce 1s infinite; text-align: center; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-30px); } 60% { transform: translateY(-15px); } }
+        .yes-celebrate { 
+            font-size: 4em; 
+            color: #ffd700; 
+            animation: bounce 1s infinite; 
+            text-align: center; 
+            margin-bottom: 20px;
+        }
+        @keyframes bounce { 
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 
+            40% { transform: translateY(-30px); } 
+            60% { transform: translateY(-15px); } 
+        }
+        .dog-emoji { 
+            font-size: 10em; 
+            margin: 20px; 
+            animation: dance 1s infinite; 
+        }
+        @keyframes dance {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-10deg) scale(1.1); }
+            75% { transform: rotate(10deg) scale(1.1); }
+        }
+        .sad-dog {
+            animation: shake 0.5s infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .bootyworld {
+            font-size: 2em;
+            color: #ffd700;
+            text-align: center;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
     </style>
 </head>
 <body>
     <div class="hearts" id="hearts"></div>
-    <!-- Photo Click Button - Now "Will you be my Valentines?" text, links to new photo -->
-    <button class="photo-btn" onclick="togglePhoto()">Will you be my Valentines?</button>
+    
+    <!-- Photo Button -->
+    <button class="photo-btn" onclick="togglePhoto()">Click me for our photo! 💕</button>
+    
     <div class="countdown" id="countdown">
-        <strong id="days">Loading...</strong> days until Feb 14, 2026!
+        <strong id="days">Loading...</strong> days until Feb 14, 2026! 💖
     </div>
-    <!-- Buttons -->
-    <div id="buttons" style="margin-top: 30px;">
-        <button onclick="handleYes()">Yes! 🥰</button>
+    
+    <!-- Initial Buttons -->
+    <div id="initialButtons" style="margin-top: 30px;">
+        <button onclick="handleYes()">Yes 🥳</button>
         <button id="noBtn" onclick="handleNo()">No 😢</button>
     </div>
+    
     <!-- Yes Celebration -->
-    <div id="celebrate" class="hidden yes-celebrate">YES!!!!!</div>
-    <!-- Photo Modal - Updated to your new IMG_2280.jpg -->
+    <div id="celebrate" class="hidden">
+        <div class="dog-emoji" style="font-size: 12em;">🥳🐶💃</div>
+        <div class="yes-celebrate">YES!!!!!</div>
+        <div class="confetti-container"></div>
+        <div class="bootyworld">See you at Bootyworld 2pm! 🎉</div>
+    </div>
+    
+    <!-- Photo Modal -->
     <div id="photoModal" class="photo-modal" onclick="togglePhoto()">
         <img src="IMG_2280.jpg" alt="Our Moment">
     </div>
-    <!-- Happy Party Dog for Yes -->
-    <div id="partyDogModal" class="dog-modal" onclick="closeDogModal()">
-        <iframe src="https://giphy.com/embed/26ufnwz3wDUll5GU0" width="480" height="270" frameBorder="0" allowFullScreen></iframe>
-    </div>
-    <!-- Sad Crying Dog for No -->
+    
+    <!-- Sad Dog Modal -->
     <div id="sadDogModal" class="dog-modal" onclick="closeDogModal()">
-        <iframe src="https://giphy.com/embed/3o6Zt6KHxJTbXCnSvu" width="480" height="270" frameBorder="0" allowFullScreen></iframe>
+        <div class="dog-emoji sad-dog">😢🥺🐶</div>
     </div>
+    
+    <!-- No Prompt - Yes or Yes -->
+    <div id="noPrompt" class="hidden" style="margin-top: 30px;">
+        <p style="font-size: 1.5em; margin-bottom: 20px; text-align: center;">Yes or Yes? 💕</p>
+        <button onclick="handleYes()">Yes! 🥰</button>
+        <button onclick="handleYes()">Yes!! 🥳</button>
+    </div>
+
     <script>
-        // Live Countdown (Singapore time)
+        // Fixed Countdown - SG time (UTC+8), updates every minute
         function updateCountdown() {
             const now = new Date();
             const target = new Date('2026-02-14T00:00:00+08:00');
             const diff = target - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('days').textContent = days;
+            
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('days').textContent = days;
+            } else {
+                document.getElementById('days').textContent = 'Today!';
+            }
         }
         updateCountdown();
-        setInterval(updateCountdown, 24 * 60 * 60 * 1000);
-        // Animated Hearts
+        setInterval(updateCountdown, 60 * 1000); // Update every minute
+        
+        // Hearts animation
         function createHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart';
@@ -74,51 +231,51 @@
             setTimeout(() => heart.remove(), 7000);
         }
         setInterval(createHeart, 300);
-        // Photo Toggle
+        
+        // Photo modal
         function togglePhoto() {
-            document.getElementById('photoModal').style.display = document.getElementById('photoModal').style.display === 'flex' ? 'none' : 'flex';
+            const modal = document.getElementById('photoModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         }
-        // Dog Modals
-        function showPartyDog() {
-            document.getElementById('partyDogModal').style.display = 'flex';
-        }
-        function showSadDog() {
-            document.getElementById('sadDogModal').style.display = 'flex';
-        }
+        
+        // Close dog modals
         function closeDogModal() {
-            document.getElementById('partyDogModal').style.display = 'none';
             document.getElementById('sadDogModal').style.display = 'none';
         }
-        // Yes Handler - Confetti + Happy Party Dog
+        
+        // Yes handler - Happy dancing dog + Bootyworld message
         function handleYes() {
+            // Hide all other elements
+            document.getElementById('initialButtons').classList.add('hidden');
+            document.getElementById('noPrompt').classList.add('hidden');
+            document.getElementById('sadDogModal').style.display = 'none';
+            
+            // Show celebration
+            document.getElementById('celebrate').classList.remove('hidden');
+            
             // Confetti explosion
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            document.body.appendChild(confetti);
+            const confettiContainer = document.querySelector('.confetti-container');
             for (let i = 0; i < 100; i++) {
                 const piece = document.createElement('div');
                 piece.className = 'confetti-piece';
                 piece.style.left = Math.random() * 100 + '%';
-                piece.style.background = ['#ff69b4', '#ffd700', '#ff6b6b', '#feca57'][Math.floor(Math.random() * 4)];
+                piece.style.background = ['#ff69b4', '#ffd700', '#ff6b6b', '#feca57', '#48dbfb'][Math.floor(Math.random() * 5)];
                 piece.style.animationDelay = Math.random() * 3 + 's';
                 piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                confetti.appendChild(piece);
+                confettiContainer.appendChild(piece);
             }
-            setTimeout(() => confetti.remove(), 4000);
-            // Celebration + dog
-            document.getElementById('celebrate').classList.remove('hidden');
-            document.getElementById('buttons').classList.add('hidden');
-            showPartyDog();
         }
-        // No Handler - Sad Crying Dog + Force Yes
+        
+        // No handler - Sad dog then Yes/Yes options
         function handleNo() {
-            showSadDog();
-            if (confirm('Are you sure? 🥺')) {
-                handleYes();
-            } else {
-                document.getElementById('noBtn').textContent = 'Just Yes! 🥰';
-                document.getElementById('noBtn').onclick = handleYes;
-            }
+            const sadModal = document.getElementById('sadDogModal');
+            sadModal.style.display = 'flex';
+            
+            setTimeout(() => {
+                sadModal.style.display = 'none';
+                document.getElementById('initialButtons').classList.add('hidden');
+                document.getElementById('noPrompt').classList.remove('hidden');
+            }, 2000);
         }
     </script>
 </body>
