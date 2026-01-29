@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body { 
+            margin: 0; 
+            height: 100vh; 
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #f7931e); 
+            font-family: 'Arial', sans-serif; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+            color: white; 
+        }
+        .container { 
+            text-align: center; 
+            background: rgba(255,255,255,0.1); 
+            padding: 50px; 
+            border-radius: 20px; 
+            backdrop-filter: blur(10px); 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3); 
+        }
+        h1 { font-size: 3em; margin-bottom: 20px; }
+        p { font-size: 1.5em; margin-bottom: 40px; }
+        button { 
+            padding: 15px 30px; 
+            font-size: 1.5em; 
+            margin: 10px; 
+            border: none; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            transition: transform 0.3s; 
+        }
+        #yes { background: #ff4757; color: white; }
+        #no { background: #3742fa; color: white; }
+        button:hover { transform: scale(1.1); }
+        #no:hover { transform: translateX(20px) scale(1.1); }
+        .hearts { position: absolute; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div id="hearts"></div>
+    <div class="container">
+        <h1>💖 [Her Name] 💖</h1>
+        <p>Will you be my Valentine on Feb 14th?</p>
+        <button id="yes">Yes! 🎉</button>
+        <button id="no">No way 😢</button>
+    </div>
+
+    <script>
+        // Floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animation = 'float 5s linear infinite';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 200);
+
+        // Add CSS for animation
+        const style = document.createElement('style');
+        style.textContent = '@keyframes float { 0% { transform: translateY(100vh); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }';
+        document.head.appendChild(style);
+
+        // Yes button - celebration
+        document.getElementById('yes').onclick = () => {
+            document.querySelector('.container').innerHTML = '<h1 style="font-size:4em;">YESS! 💕</h1><p>Feb 14th is ours! Dinner at 7pm? 🌹</p>';
+        };
+
+        // No button - playful dodge
+        document.getElementById('no').onclick = () => {
+            alert('Really? Think again! 😉');
+        };
+    </script>
+</body>
+</html>
