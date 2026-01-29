@@ -7,227 +7,117 @@
     <style>
         body { 
             font-family: 'Arial', sans-serif; 
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4); 
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); 
             margin: 0; 
             padding: 20px; 
             min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
-            justify-content: center; 
             align-items: center; 
-            text-align: center;
-            overflow-x: hidden; 
+            justify-content: center;
+            overflow-x: hidden; /* Prevent scrollbar during animation */
         }
 
-        h1 { 
-            font-size: 2.5em; 
-            color: #d63031; 
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.5); 
+        /* Container for the card look */
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            z-index: 10; /* Keep above falling emojis */
+            position: relative;
+        }
+
+        /* Banner Photo */
+        .banner-img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #ff4757;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
             margin-bottom: 20px;
         }
 
-        /* Photo Button */
-        .photo-btn { 
-            background: white; 
-            color: #d63031; 
-            border: 2px dashed #d63031; 
-            padding: 15px 30px; 
-            font-size: 1.2em; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            transition: all 0.3s;
-            margin-bottom: 30px;
+        button {
+            padding: 12px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
             font-weight: bold;
-        }
-        .photo-btn:hover { 
-            background: #ffecec; 
-            transform: scale(1.05);
-        }
-
-        /* Action Buttons */
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        button.action-btn { 
-            padding: 15px 40px; 
-            font-size: 1.5em; 
-            border: none; 
-            border-radius: 15px; 
-            cursor: pointer; 
-            transition: transform 0.2s;
             color: white;
-            font-weight: bold;
+        }
+
+        button:hover {
+            transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .yes-btn { background-color: #2ecc71; }
-        .no-btn { background-color: #e74c3c; }
+        .yes-btn { background: #2ed573; }
+        .no-btn { background: #ff4757; }
 
-        button.action-btn:hover { transform: scale(1.1); }
-
-        /* Images and GIFs */
-        .gif-container img {
-            max-width: 300px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            margin: 20px 0;
-        }
-
-        /* Success Text */
-        .success-text {
-            font-size: 2em;
-            color: #d63031;
-            font-weight: bold;
-            animation: bounce 2s infinite;
-        }
-
-        /* Photo Modal */
-        .modal {
+        /* Success Message */
+        .success-message {
             display: none;
+            color: #ffa502;
+            font-size: 1.5em;
+            font-weight: bold;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Falling Elements (Confetti & Emojis) */
+        .falling-element {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal img {
-            max-width: 90%;
-            max-height: 90vh;
-            border-radius: 10px;
-            border: 5px solid white;
-        }
-
-        /* Utilities */
-        .hidden { display: none !important; }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
-        }
-
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            width: 10px; height: 10px;
-            background-color: #f00;
+            top: -50px;
+            z-index: 9999; /* On top of everything */
+            pointer-events: none;
             animation: fall linear forwards;
-            top: -10vh;
-            z-index: 999;
         }
+
         @keyframes fall {
-            to { transform: translateY(110vh) rotate(720deg); }
+            to { transform: translateY(110vh) rotate(360deg); }
         }
+
+        .hidden { display: none; }
+
     </style>
 </head>
 <body>
 
-    <h1 id="mainTitle">Will you be my Valentine? 💖</h1>
+    <div class="container">
+        <img src="IMG_2281.jpg" alt="Us" class="banner-img">
 
-    <button class="photo-btn" onclick="togglePhoto()">📸 Click me to see us!</button>
+        <h1 id="question">Will you be my Valentine? 💖</h1>
 
-    <div id="contentArea">
-        
-        <div class="btn-container" id="initialButtons">
-            <button class="action-btn yes-btn" onclick="handleYes()">Yes 🥰</button>
-            <button class="action-btn no-btn" onclick="handleNo()">No 😢</button>
-        </div>
-
-        <div id="sadContainer" class="hidden">
-            <div class="gif-container">
-                <img src="https://media.giphy.com/media/26BGqofNXjxluwX0k/giphy.gif" alt="Sad Dog">
+        <div id="actionArea">
+            <div class="btn-group" id="initialButtons">
+                <button class="yes-btn" onclick="handleYes()">Yes 🥰</button>
+                <button class="no-btn" onclick="handleNo()">No 😢</button>
             </div>
-            <h2>But why? 🥺</h2>
-            <p>Please choose again...</p>
-        </div>
 
-        <div id="forceYesButtons" class="btn-container hidden" style="margin-top: 20px;">
-            <button class="action-btn yes-btn" onclick="handleYes()">Yes! 💕</button>
-            <button class="action-btn yes-btn" onclick="handleYes()">YES!!! 🥳</button>
-        </div>
-
-        <div id="successContainer" class="hidden">
-            <div class="gif-container">
-                <img src="https://media.giphy.com/media/l0MYt5jPR6tTSTPfW/giphy.gif" alt="Happy Dog">
-            </div>
-            <div class="success-text">
-                See you 2pm at Bootyworld!!! 🎉
-            </div>
-        </div>
-
-    </div>
-
-    <div id="photoModal" class="modal" onclick="togglePhoto()">
-        <img src="IMG_2281.jpg" alt="Us">
-    </div>
-
-    <script>
-        // 1. Photo Toggle
-        function togglePhoto() {
-            const modal = document.getElementById('photoModal');
-            if (modal.style.display === 'flex') {
-                modal.style.display = 'none';
-            } else {
-                modal.style.display = 'flex';
-            }
-        }
-
-        // 2. Handle YES click
-        function handleYes() {
-            // Hide Title and Buttons
-            document.getElementById('initialButtons').classList.add('hidden');
-            document.getElementById('forceYesButtons').classList.add('hidden');
-            document.getElementById('sadContainer').classList.add('hidden');
-            document.getElementById('mainTitle').style.display = 'none'; // Optional: hide title for clean look
-            
-            // Show Success
-            document.getElementById('successContainer').classList.remove('hidden');
-
-            // Trigger Confetti
-            startConfetti();
-        }
-
-        // 3. Handle NO click
-        function handleNo() {
-            // Hide initial buttons
-            document.getElementById('initialButtons').classList.add('hidden');
-            
-            // Show Sad Dog
-            const sadContainer = document.getElementById('sadContainer');
-            sadContainer.classList.remove('hidden');
-
-            // Wait 2.5 seconds, then show the "Yes or Yes" options
-            setTimeout(() => {
-                sadContainer.classList.add('hidden');
-                document.getElementById('forceYesButtons').classList.remove('hidden');
-            }, 2500);
-        }
-
-        // 4. Confetti Logic
-        function startConfetti() {
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                
-                // Random properties
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-                
-                document.body.appendChild(confetti);
-
-                // Remove from DOM after animation
-                setTimeout(() => {
-                    confetti.remove();
-                }, 5000);
-            }
-        }
-    </script>
-</body>
-</html>
+            <div class="btn-group hidden" id="forcedButtons">
+                <button class="yes-btn"
