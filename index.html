@@ -23,11 +23,13 @@
             position: relative; 
             transition: all 0.5s; 
         }
-        h1 { 
-            font-size: 3em; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+        .main-title {
+            font-size: 4em; 
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.6); 
             animation: pulse 2s infinite; 
-            margin-bottom: 20px; 
+            margin-bottom: 30px;
+            line-height: 1.1;
+            text-align: center;
         }
         @keyframes pulse { 
             0% { transform: scale(1); } 
@@ -55,7 +57,7 @@
         .heart { 
             position: absolute; 
             color: #ff69b4; 
-            font-size: 20px; 
+            font-size: 24px; 
             animation: float 6s infinite linear; 
         }
         @keyframes float { 
@@ -66,23 +68,24 @@
             background: #ff6b6b; 
             color: white; 
             border: none; 
-            padding: 15px 30px; 
-            font-size: 1.5em; 
+            padding: 18px 35px; 
+            font-size: 1.6em; 
             border-radius: 50px; 
             cursor: pointer; 
             transition: transform 0.3s, box-shadow 0.3s; 
-            margin: 10px; 
+            margin: 12px; 
             z-index: 10;
             position: relative;
+            font-weight: bold;
         }
         button:hover { 
             transform: scale(1.1); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4); 
         }
         .photo-btn { 
             background: none; 
-            border: 4px dashed #fff; 
-            font-size: 2em; 
+            border: 5px dashed #fff; 
+            font-size: 1.8em; 
             padding: 25px 50px; 
             margin-bottom: 30px; 
             cursor: pointer; 
@@ -90,7 +93,7 @@
             z-index: 20;
         }
         .photo-btn:hover { 
-            background: rgba(255,255,255,0.1); 
+            background: rgba(255,255,255,0.15); 
         }
         .photo-modal, .dog-modal { 
             display: none; 
@@ -143,62 +146,62 @@
         }
         .hidden { display: none !important; }
         .yes-celebrate { 
-            font-size: 4em; 
+            font-size: 5em; 
             color: #ffd700; 
             animation: bounce 1s infinite; 
             text-align: center; 
             margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
         }
         @keyframes bounce { 
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 
-            40% { transform: translateY(-30px); } 
-            60% { transform: translateY(-15px); } 
+            40% { transform: translateY(-40px); } 
+            60% { transform: translateY(-20px); } 
         }
         .dog-container {
-            font-size: 12em;
+            font-size: 14em;
             margin: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 200px;
+            min-height: 250px;
         }
         .happy-dog {
             animation: dance 1.2s infinite ease-in-out;
         }
         @keyframes dance {
-            0%, 100% { 
-                transform: rotate(0deg) scale(1) translateY(0); 
-            }
-            25% { 
-                transform: rotate(-15deg) scale(1.1) translateY(-10px); 
-            }
-            50% { 
-                transform: rotate(0deg) scale(1.15) translateY(-20px); 
-            }
-            75% { 
-                transform: rotate(15deg) scale(1.1) translateY(-10px); 
-            }
+            0%, 100% { transform: rotate(0deg) scale(1) translateY(0); } 
+            25% { transform: rotate(-15deg) scale(1.1) translateY(-15px); } 
+            50% { transform: rotate(0deg) scale(1.2) translateY(-25px); } 
+            75% { transform: rotate(15deg) scale(1.1) translateY(-15px); } 
         }
         .sad-dog {
             animation: shake 0.8s infinite ease-in-out;
         }
         @keyframes shake {
             0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-8px) rotate(-2deg); }
-            75% { transform: translateX(8px) rotate(2deg); }
+            25% { transform: translateX(-10px) rotate(-3deg); }
+            75% { transform: translateX(10px) rotate(3deg); }
         }
         .bootyworld {
-            font-size: 2.5em;
+            font-size: 2.8em;
             color: #ffd700;
             text-align: center;
             margin-top: 30px;
             animation: pulse 2s infinite;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+            font-weight: bold;
         }
         .content-container {
             z-index: 10;
             position: relative;
             text-align: center;
+            max-width: 90%;
+        }
+        .no-prompt-text {
+            font-size: 2.2em; 
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -211,9 +214,12 @@
     
     <!-- Main Content -->
     <div class="content-container">
-        <!-- Photo Button - FIXED HIGHER Z-INDEX -->
-        <button class="photo-btn" id="photoBtn" onclick="togglePhoto(); console.log('Photo clicked!');">
-            👀 Click me for our photo! 💕
+        <!-- MAIN TITLE -->
+        <h1 class="main-title">Will you be my Valentines?</h1>
+        
+        <!-- Photo Button -->
+        <button class="photo-btn" id="photoBtn" onclick="togglePhoto();">
+            👀 Click for our photo! 💕
         </button>
         
         <!-- Countdown -->
@@ -238,16 +244,19 @@
         
         <!-- No Prompt -->
         <div id="noPrompt" class="hidden">
-            <p style="font-size: 1.8em; margin-bottom: 30px;">Yes or Yes? 💕</p>
+            <p class="no-prompt-text">Yes or Yes? 💕</p>
             <button onclick="handleYes()">Yes! 🥰</button>
             <button onclick="handleYes()">Yes!! 🥳</button>
         </div>
     </div>
     
-    <!-- Photo Modal - FIXED STRUCTURE -->
+    <!-- Photo Modal -->
     <div id="photoModal" class="photo-modal" onclick="togglePhoto()">
         <div class="photo-modal-content">
-            <img src="IMG_2281.jpg" alt="Our special moment 💕" onerror="console.log('Image not found'); this.src='https://via.placeholder.com/400x600/ff69b4/fff?text=No+Photo+Found+%F0%9F%98%8D';">
+            <!-- UPDATE THIS LINK WITH YOUR GITHUB RAW URL -->
+            <img src="https://raw.githubusercontent.com/YeoTiao/V-day-26/main/IMG_2280.jpg"" 
+                 alt="Our special moment 💕" 
+                 onerror="this.src='https://via.placeholder.com/500x700/ff69b4/fff?text=No+Photo+Found+%F0%9F%98%8D';">
         </div>
     </div>
     
@@ -259,9 +268,9 @@
     </div>
 
     <script>
-        console.log('🎉 Page loaded - Photo button ready!');
+        console.log('💖 Valentine page loaded!');
         
-        // Fixed Countdown
+        // Countdown
         function updateCountdown() {
             const now = new Date();
             const target = new Date('2026-02-14T00:00:00+08:00');
@@ -276,7 +285,7 @@
         updateCountdown();
         setInterval(updateCountdown, 60000);
         
-        // Hearts animation
+        // Hearts
         function createHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart';
@@ -285,33 +294,26 @@
             heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
             heart.style.animationDelay = Math.random() * 2 + 's';
             document.getElementById('hearts').appendChild(heart);
-            setTimeout(() => {
-                if (heart.parentNode) heart.remove();
-            }, 8000);
+            setTimeout(() => {if (heart.parentNode) heart.remove();}, 8000);
         }
         setInterval(createHeart, 200);
-        for(let i = 0; i < 5; i++) setTimeout(createHeart, i * 500);
+        for(let i = 0; i < 8; i++) setTimeout(createHeart, i * 300);
         
-        // FIXED PHOTO MODAL - Higher z-index, better structure, fallback image
+        // Photo modal
         function togglePhoto() {
-            console.log('🔍 togglePhoto() called!');
+            console.log('📸 Photo clicked!');
             const modal = document.getElementById('photoModal');
-            const isVisible = modal.style.display === 'flex';
-            
-            modal.style.display = isVisible ? 'none' : 'flex';
-            console.log('Photo modal display:', modal.style.display);
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         }
         
-        // Close dog modal
         function closeDogModal() {
             document.getElementById('sadDogModal').style.display = 'none';
         }
         
-        // Confetti
         function createConfetti() {
             const confetti = document.getElementById('confetti');
             confetti.innerHTML = '';
-            for (let i = 0; i < 150; i++) {
+            for (let i = 0; i < 200; i++) {
                 const piece = document.createElement('div');
                 piece.className = 'confetti-piece';
                 piece.style.left = Math.random() * 100 + '%';
@@ -324,13 +326,13 @@
         }
         
         function handleYes() {
-            console.log('✅ Yes clicked');
+            console.log('✅ YES!');
             document.getElementById('initialButtons').classList.add('hidden');
             document.getElementById('noPrompt').classList.add('hidden');
             document.getElementById('sadDogModal').style.display = 'none';
             document.getElementById('celebrate').classList.remove('hidden');
             createConfetti();
-            for(let i = 0; i < 20; i++) setTimeout(createHeart, i * 100);
+            for(let i = 0; i < 30; i++) setTimeout(createHeart, i * 80);
         }
         
         function handleNo() {
@@ -341,13 +343,8 @@
                 sadModal.style.display = 'none';
                 document.getElementById('initialButtons').classList.add('hidden');
                 document.getElementById('noPrompt').classList.remove('hidden');
-            }, 2500);
+            }, 2800);
         }
-        
-        // Test photo button on load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 DOM loaded - Photo button ID:', document.getElementById('photoBtn'));
-        });
     </script>
 </body>
 </html>
