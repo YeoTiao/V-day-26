@@ -3,121 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will you be my Valentine?</title>
+    <title>Will you be my Valentines?</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body { 
             font-family: 'Arial', sans-serif; 
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); 
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3); 
             margin: 0; 
             padding: 20px; 
             min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
+            justify-content: center; 
             align-items: center; 
-            justify-content: center;
-            overflow-x: hidden; /* Prevent scrollbar during animation */
+            color: white; 
+            overflow-x: hidden; 
+            position: relative; 
+            transition: all 0.5s; 
         }
-
-        /* Container for the card look */
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 100%;
+        h1 { 
+            font-size: 3em; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+            animation: pulse 2s infinite; 
+            margin-bottom: 20px; 
+        }
+        @keyframes pulse { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.05); } 
+            100% { transform: scale(1); } 
+        }
+        .countdown { 
+            background: rgba(255,255,255,0.2); 
+            padding: 20px; 
+            border-radius: 15px; 
+            font-size: 2em; 
+            backdrop-filter: blur(10px); 
+            margin: 20px 0; 
             text-align: center;
-            z-index: 10; /* Keep above falling emojis */
+        }
+        .hearts { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: 1; 
+        }
+        .heart { 
+            position: absolute; 
+            color: #ff69b4; 
+            font-size: 20px; 
+            animation: float 6s infinite linear; 
+        }
+        @keyframes float { 
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } 
+        }
+        button { 
+            background: #ff6b6b; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            font-size: 1.5em; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            margin: 10px; 
+            z-index: 10;
             position: relative;
         }
-
-        /* Banner Photo */
-        .banner-img {
+        button:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+        }
+        .photo-btn { 
+            background: none; 
+            border: 4px dashed #fff; 
+            font-size: 2em; 
+            padding: 25px 50px; 
+            margin-bottom: 30px; 
+            cursor: pointer; 
+            position: relative;
+            z-index: 20;
+        }
+        .photo-btn:hover { 
+            background: rgba(255,255,255,0.1); 
+        }
+        .photo-modal, .dog-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.9); 
+            z-index: 1001; 
+            justify-content: center; 
+            align-items: center;
+            cursor: pointer;
+        }
+        .photo-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+        .photo-modal img {
             width: 100%;
             height: auto;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: block;
+        }
+        .dog-modal > div { 
+            max-width: 90%; 
+            max-height: 90%; 
+            border-radius: 10px; 
+        }
+        .confetti { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: 999; 
+        }
+        .confetti-piece { 
+            position: absolute; 
+            width: 12px; 
+            height: 12px; 
+            animation: confetti-fall 3s linear infinite; 
+        }
+        @keyframes confetti-fall { 
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } 
+        }
+        .hidden { display: none !important; }
+        .yes-celebrate { 
+            font-size: 4em; 
+            color: #ffd700; 
+            animation: bounce 1s infinite; 
+            text-align: center; 
             margin-bottom: 20px;
-            object-fit: cover;
         }
-
-        h1 {
-            color: #ff4757;
-            font-size: 1.8em;
-            margin-bottom: 25px;
+        @keyframes bounce { 
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 
+            40% { transform: translateY(-30px); } 
+            60% { transform: translateY(-15px); } 
         }
-
-        /* Buttons */
-        .btn-group {
+        .dog-container {
+            font-size: 12em;
+            margin: 20px;
             display: flex;
-            gap: 15px;
             justify-content: center;
-            margin-bottom: 20px;
+            align-items: center;
+            min-height: 200px;
         }
-
-        button {
-            padding: 12px 30px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: bold;
-            color: white;
+        .happy-dog {
+            animation: dance 1.2s infinite ease-in-out;
         }
-
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        @keyframes dance {
+            0%, 100% { 
+                transform: rotate(0deg) scale(1) translateY(0); 
+            }
+            25% { 
+                transform: rotate(-15deg) scale(1.1) translateY(-10px); 
+            }
+            50% { 
+                transform: rotate(0deg) scale(1.15) translateY(-20px); 
+            }
+            75% { 
+                transform: rotate(15deg) scale(1.1) translateY(-10px); 
+            }
         }
-
-        .yes-btn { background: #2ed573; }
-        .no-btn { background: #ff4757; }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            color: #ffa502;
-            font-size: 1.5em;
-            font-weight: bold;
-            animation: popIn 0.5s ease;
+        .sad-dog {
+            animation: shake 0.8s infinite ease-in-out;
         }
-
-        @keyframes popIn {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-8px) rotate(-2deg); }
+            75% { transform: translateX(8px) rotate(2deg); }
         }
-
-        /* Falling Elements (Confetti & Emojis) */
-        .falling-element {
-            position: fixed;
-            top: -50px;
-            z-index: 9999; /* On top of everything */
-            pointer-events: none;
-            animation: fall linear forwards;
+        .bootyworld {
+            font-size: 2.5em;
+            color: #ffd700;
+            text-align: center;
+            margin-top: 30px;
+            animation: pulse 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
-
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
+        .content-container {
+            z-index: 10;
+            position: relative;
+            text-align: center;
         }
-
-        .hidden { display: none; }
-
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <img src="IMG_2281.jpg" alt="Us" class="banner-img">
-
-        <h1 id="question">Will you be my Valentine? 💖</h1>
-
-        <div id="actionArea">
-            <div class="btn-group" id="initialButtons">
-                <button class="yes-btn" onclick="handleYes()">Yes 🥰</button>
-                <button class="no-btn" onclick="handleNo()">No 😢</button>
+    <!-- Hearts Background -->
+    <div class="hearts" id="hearts"></div>
+    
+    <!-- Confetti Layer -->
+    <div class="confetti" id="confetti"></div>
+    
+    <!-- Main Content -->
+    <div class="content-container">
+        <!-- Photo Button - FIXED HIGHER Z-INDEX -->
+        <button class="photo-btn" id="photoBtn" onclick="togglePhoto(); console.log('Photo clicked!');">
+            👀 Click me for our photo! 💕
+        </button>
+        
+        <!-- Countdown -->
+        <div class="countdown" id="countdown">
+            <strong id="days">Loading...</strong> days until Feb 14, 2026! 💖
+        </div>
+        
+        <!-- Initial Buttons -->
+        <div id="initialButtons">
+            <button onclick="handleYes()">Yes 🥳</button>
+            <button onclick="handleNo()">No 😢</button>
+        </div>
+        
+        <!-- Yes Celebration -->
+        <div id="celebrate" class="hidden">
+            <div class="dog-container">
+                <span class="happy-dog">🥳🐶💃🎉</span>
             </div>
+            <div class="yes-celebrate">YES!!!!!</div>
+            <div class="bootyworld">See you at Bootyworld 2pm! 🎉</div>
+        </div>
+        
+        <!-- No Prompt -->
+        <div id="noPrompt" class="hidden">
+            <p style="font-size: 1.8em; margin-bottom: 30px;">Yes or Yes? 💕</p>
+            <button onclick="handleYes()">Yes! 🥰</button>
+            <button onclick="handleYes()">Yes!! 🥳</button>
+        </div>
+    </div>
+    
+    <!-- Photo Modal - FIXED STRUCTURE -->
+    <div id="photoModal" class="photo-modal" onclick="togglePhoto()">
+        <div class="photo-modal-content">
+            <img src="IMG_2280.jpg" alt="Our special moment 💕" onerror="console.log('Image not found'); this.src='https://via.placeholder.com/400x600/ff69b4/fff?text=No+Photo+Found+%F0%9F%98%8D';">
+        </div>
+    </div>
+    
+    <!-- Sad Dog Modal -->
+    <div id="sadDogModal" class="dog-modal" onclick="closeDogModal()">
+        <div class="dog-container">
+            <span class="sad-dog">😢🥺🐶💔</span>
+        </div>
+    </div>
 
-            <div class="btn-group hidden" id="forcedButtons">
-                <button class="yes-btn"
+    <script>
+        console.log('🎉 Page loaded - Photo button ready!');
+        
+        // Fixed Countdown
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date('2026-02-14T00:00:00+08:00');
+            const diff = target - now;
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('days').textContent = days;
+            } else {
+                document.getElementById('days').textContent = 'Today!';
+            }
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+        
+        // Hearts animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💖', '💕', '💗', '❤️'][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('hearts').appendChild(heart);
+            setTimeout(() => {
+                if (heart.parentNode) heart.remove();
+            }, 8000);
+        }
+        setInterval(createHeart, 200);
+        for(let i = 0; i < 5; i++) setTimeout(createHeart, i * 500);
+        
+        // FIXED PHOTO MODAL - Higher z-index, better structure, fallback image
+        function togglePhoto() {
+            console.log('🔍 togglePhoto() called!');
+            const modal = document.getElementById('photoModal');
+            const isVisible = modal.style.display === 'flex';
+            
+            modal.style.display = isVisible ? 'none' : 'flex';
+            console.log('Photo modal display:', modal.style.display);
+        }
+        
+        // Close dog modal
+        function closeDogModal() {
+            document.getElementById('sadDogModal').style.display = 'none';
+        }
+        
+        // Confetti
+        function createConfetti() {
+            const confetti = document.getElementById('confetti');
+            confetti.innerHTML = '';
+            for (let i = 0; i < 150; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.background = ['#ff69b4', '#ffd700', '#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3'][Math.floor(Math.random() * 6)];
+                piece.style.animationDelay = Math.random() * 2 + 's';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.appendChild(piece);
+                setTimeout(() => piece.remove(), 5000);
+            }
+        }
+        
+        function handleYes() {
+            console.log('✅ Yes clicked');
+            document.getElementById('initialButtons').classList.add('hidden');
+            document.getElementById('noPrompt').classList.add('hidden');
+            document.getElementById('sadDogModal').style.display = 'none';
+            document.getElementById('celebrate').classList.remove('hidden');
+            createConfetti();
+            for(let i = 0; i < 20; i++) setTimeout(createHeart, i * 100);
+        }
+        
+        function handleNo() {
+            console.log('❌ No clicked');
+            const sadModal = document.getElementById('sadDogModal');
+            sadModal.style.display = 'flex';
+            setTimeout(() => {
+                sadModal.style.display = 'none';
+                document.getElementById('initialButtons').classList.add('hidden');
+                document.getElementById('noPrompt').classList.remove('hidden');
+            }, 2500);
+        }
+        
+        // Test photo button on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM loaded - Photo button ID:', document.getElementById('photoBtn'));
+        });
+    </script>
+</body>
+</html>
